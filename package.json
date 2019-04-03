@@ -1,0 +1,22 @@
+{
+  "name": "lightbox-designer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "css-loader": "^2.1.1",
+    "express": "^4.16.4",
+    "style-loader": "^0.23.1",
+    "three": "^0.103.0",
+    "webpack": "^4.29.6",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "scripts": {
+    "build": "webpack",
+    "start": "node server.js",
+    "dev": "webpack-dev-server & node server.js"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.0"
+  }
+}
