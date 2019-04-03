@@ -8,6 +8,8 @@
     "express": "^4.16.4",
     "style-loader": "^0.23.1",
     "three": "^0.103.0",
+    "three-orbitcontrols": "^2.102.1",
+    "three-svg-loader": "^0.1.0",
     "webpack": "^4.29.6",
     "webpack-dev-server": "^3.2.1"
   },
