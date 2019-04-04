@@ -9,11 +9,46 @@
   overflow-y: scroll;
 }
 
+/* Small Devices, Tablets */
+/* @media only screen and (max-width : 768px) {
+  #list-container {
+    height: 200px !important;
+  }
+} */
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+  #list-container {
+    height: 200px !important;
+  }
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 320px) {
+  #list-container {
+    height: 200px !important;
+  }
+}
+
 @media (max-width: 575.98px) {
   #list-container {
     height: 200px !important;
   }
 }
+
+/* @media (min-width: 768px) {
+  #list-container {
+    height: 200px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  #list-container {
+    height: 200px !important;
+  }
+} */
+
+
 #main-container {
   /* padding: 0px; */
   /* margin: 0px; */

@@ -177,11 +177,13 @@ module.exports = {
 				background-repeat: no-repeat;
 				width: 100px;
 				height: 100px;
+				marin: 0 auto;
 			`;
 
 			var row = yo`
-				<div class="row" style="margin:2px;">
-					<div style="${style}"></div>
+				<div class="row">
+					<div style="text-align: center; margin:2px; width: 100%;" ><div style="${style}"></div></div>
+					<br/>
 					<div>
 						<b>${design.name}</b>
 						${numInput}
