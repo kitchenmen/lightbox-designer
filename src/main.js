@@ -151,7 +151,12 @@ module.exports = {
 		var resetButton = yo`
 			<button type="button" onclick=${clearScene} class="btn btn-warning">Reset</button>
 		`;
+		var generateGcodeBtn = yo`
+			<button type="button" onclick=${_.noop} class="btn btn-success">Generate Gcode</button>
+		`;
+
 		listContainer.appendChild(resetButton);
+		listContainer.appendChild(generateGcodeBtn);
 		_.each(designs, (design) => {
 
 			const numInput = yo`
