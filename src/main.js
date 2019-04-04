@@ -12,6 +12,7 @@ let camera, controls, container;
 const renderer = new THREE.WebGLRenderer({antialias: true});
 const loader = new THREE.SVGLoader();
 const objLoader = new THREE.OBJLoader();
+let layers = [];
 
 function animate() {
 	requestAnimationFrame( animate );
@@ -27,6 +28,12 @@ function onWindowResize(){
   renderer.setSize( bbox.width, bbox.height );
 }
 
+const clearScene  = () => {
+	console.log("Clearing scene!");
+	_.each(layers, (layer) => {
+		scene.remove(layer);
+	});
+}
 const loadFrame = () => {
   objLoader.load('/frame.obj', (object) => {
     object.rotateOnAxis(new THREE.Vector3(1,0,0), -Math.PI/2);
@@ -77,6 +84,7 @@ const loadLayer = (filename, depth=0) => {
 
       group.scale.y = -1;
       group.position.z -= depth;
+			layers.push(group);
       scene.add( group );
 
   }, _.noop, (error) => {
@@ -140,7 +148,24 @@ module.exports = {
 			{name: 'Mountainer', image: 'mountain1.svg'},
 			{name: 'Forest', image: 'forest1.svg'}
 		];
+		var resetButton = yo`
+			<button type="button" onclick=${clearScene} class="btn btn-warning">Reset</button>
+		`;
+		listContainer.appendChild(resetButton);
 		_.each(designs, (design) => {
+
+			const numInput = yo`
+				<input type="number" value="0.1" min="-2" max="1">
+			`;
+			const addLayer = function() {
+				console.log("ADD LAYER!!");
+				loadLayer(design.image, numInput.value);
+			}
+
+			const addLayerBtn = yo`
+				<button type="button" onclick=${addLayer} class="btn btn-success">Add Layer</button>
+			`;
+
 			var style = `
 				background: url(${design.image});
 				background-size: 100%;
@@ -154,6 +179,8 @@ module.exports = {
 					<div style="${style}"></div>
 					<div>
 						<b>${design.name}</b>
+						${numInput}
+						${addLayerBtn}
 					</div>
 				</div>
 			`;
