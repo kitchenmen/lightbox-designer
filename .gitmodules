@@ -1,0 +1,3 @@
+[submodule "jscut"]
+	path = jscut
+	url = https://github.com/tbfleming/jscut.git
