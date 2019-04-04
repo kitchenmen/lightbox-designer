@@ -43,14 +43,13 @@ const loadLayer = (filename, depth=0) => {
         var path = paths[ i ];
 
         var material = new THREE.MeshPhongMaterial( {
-          color: path.color,
-          side: THREE.DoubleSide,
+          color: new THREE.Color("white"),
           depthWrite: true,
           transparent: true,
-          opacity: 0.6
+          opacity: 0.4,
+          roughness: 1,
+          side: THREE.DoubleSide
         } );
-
-        console.log({material});
 
         var shapes = path.toShapes( true );
 
@@ -96,44 +95,25 @@ module.exports = {
 
 		var lights = [];
     window.lights = lights;
-		lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
-		lights[ 1 ] = new THREE.PointLight( 0xffffff, 0.7, 0 );
-		// lights[ 2 ] = new THREE.PointLight( 0xffffff, 1, 0 );
 
-		lights[ 0 ].position.set( 1, -0.1, 0.1 );
-		lights[ 1 ].position.set( 100, 200, 100 );
-		// lights[ 2 ].position.set( - 100, - 200, - 100 );
-
-    // Start: lights[0].position.set(1,-0.1, 0.1)
-    // End: 11,-0.1, 0.1
-    for (let i=0;i<3;i++) {
-      var light = new THREE.PointLight( new THREE.Color("blue"), 1, 1 );
-      light.position.set(3+ i*(11-1)/3, 0, 0.1);
+    for (let i=0;i<5;i++) {
+      var light = new THREE.PointLight( new THREE.Color("blue"), 1);
+      light.position.set(3+ i*(11-1)/5, -3, -1);
       scene.add(light);
     }
 
-    for (let i=0;i<3;i++) {
-      var light = new THREE.PointLight( 0xffffff, 0.5, 100 );
-      light.position.set(3+ i*(11-1)/3, -13, 0.1);
+    for (let i=0;i<5;i++) {
+      var light = new THREE.PointLight( new THREE.Color("green)"), 1);
+      light.position.set(3+ i*(11-1)/5, -13, 0.1);
       scene.add(light);
     }
 
-		// scene.add( lights[ 0 ] );
-		scene.add( lights[ 1 ] );
-		// scene.add( lights[ 2 ] );
+    loadLayer('/svgs/l5.svg', 0.10);
+    loadLayer('/svgs/l1.svg', 0.6);
+    loadLayer('/svgs/l2.svg', -1);
+    loadLayer('/svgs/l3.svg', -0.2);
+    // loadLayer('/svgs/l4.svg', -0.6);
 
-    // Geometry doesn't do much on its own, we need to create a Mesh from it
-    // var material1 = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
-    // var material2 = new THREE.MeshPhongMaterial({color: 0xff0000});
-    // var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    // window.extrudedMesh = new THREE.Mesh(extrudedGeometry, material1);
-    // window.cube = new THREE.Mesh( geometry, material2 );
-
-    // scene.add(extrudedMesh);
-    // scene.add(cube);
-
-    loadLayer('/mountain1.svg', 0.3);
-    loadLayer('/forest1.svg', -0.2);
     loadFrame();
     animate();
 
