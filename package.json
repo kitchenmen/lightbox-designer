@@ -13,7 +13,8 @@
     "three-orbitcontrols": "^2.102.1",
     "three-svg-loader": "^0.1.0",
     "webpack": "^4.29.6",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-dev-server": "^3.2.1",
+    "yo-yo": "^1.4.1"
   },
   "scripts": {
     "build": "webpack",

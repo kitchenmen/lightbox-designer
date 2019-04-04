@@ -1,13 +1,14 @@
 const THREE = require('three');
 const OrbitControls = require('three-orbitcontrols');
 const _ = require('lodash');
+const yo = require('yo-yo');
 require('three-svg-loader')(THREE);
 require('three-obj-loader')(THREE);
 
 window.THREE = THREE;
 
 const scene = new THREE.Scene();
-let camera, controls;
+let camera, controls, container;
 const renderer = new THREE.WebGLRenderer({antialias: true});
 const loader = new THREE.SVGLoader();
 const objLoader = new THREE.OBJLoader();
@@ -15,6 +16,15 @@ const objLoader = new THREE.OBJLoader();
 function animate() {
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
+}
+
+window.addEventListener( 'resize', onWindowResize, false );
+
+function onWindowResize(){
+	const bbox = container.getBoundingClientRect();
+  camera.aspect = bbox.width / bbox.height;
+  camera.updateProjectionMatrix();
+  renderer.setSize( bbox.width, bbox.height );
 }
 
 const loadFrame = () => {
@@ -77,7 +87,7 @@ const loadLayer = (filename, depth=0) => {
 
 module.exports = {
   scene: (selector) => {
-    const container = document.querySelector(selector);
+    container = document.querySelector(selector);
     const bbox = container.getBoundingClientRect();
     camera = new THREE.PerspectiveCamera( 75, bbox.width / bbox.height, 0.1, 1000 );
     renderer.setSize( bbox.width, bbox.height );
@@ -89,7 +99,7 @@ module.exports = {
 		controls = new OrbitControls( camera, renderer.domElement );
     controls.target.x = 6;
     controls.target.y = -6;
-    // controls.enableZoom = false;
+    controls.enableZoom = false;
     controls.update();
     window.controls = controls;
 
@@ -119,5 +129,35 @@ module.exports = {
 
     // controls.update();
     window.camera = camera;
-  }
+  },
+	listController: (selector) => {
+		var listContainer = document.querySelector(selector);
+		let designs = [
+			{name: 'Couple on Beach', image: '/svgs/l2.svg'},
+			{name: 'House on Beach', image: 'svgs/l3.svg'},
+			{name: 'Lighthouse', image: 'svgs/l4.svg'},
+			{name: 'Sailboat', image: 'svgs/l5.svg'},
+			{name: 'Mountainer', image: 'mountain1.svg'},
+			{name: 'Forest', image: 'forest1.svg'}
+		];
+		_.each(designs, (design) => {
+			var style = `
+				background: url(${design.image});
+				background-size: 100%;
+				background-repeat: no-repeat;
+				width: 100px;
+				height: 100px;
+			`;
+
+			var row = yo`
+				<div class="row" style="margin:2px;">
+					<div style="${style}"></div>
+					<div>
+						<b>${design.name}</b>
+					</div>
+				</div>
+			`;
+			listContainer.appendChild(row);
+		});
+	}
 }
