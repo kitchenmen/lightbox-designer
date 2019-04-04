@@ -4,6 +4,8 @@ const _ = require('lodash');
 require('three-svg-loader')(THREE);
 require('three-obj-loader')(THREE);
 
+window.THREE = THREE;
+
 const scene = new THREE.Scene();
 let camera, controls;
 const renderer = new THREE.WebGLRenderer({antialias: true});
@@ -23,6 +25,8 @@ const loadFrame = () => {
     object.position.y -= 13;
     object.scale.x = 1.2;
     object.scale.z = 1.2;
+    object.children[0].material.color = new THREE.Color("rgb(112, 72, 11)");
+    console.log({object});
     // object.position.z -= 5;
     scene.add(object);
   }, _.noop, (error) => {
@@ -41,8 +45,12 @@ const loadLayer = (filename, depth=0) => {
         var material = new THREE.MeshPhongMaterial( {
           color: path.color,
           side: THREE.DoubleSide,
-          depthWrite: true
+          depthWrite: true,
+          transparent: true,
+          opacity: 0.6
         } );
+
+        console.log({material});
 
         var shapes = path.toShapes( true );
 
@@ -57,9 +65,7 @@ const loadLayer = (filename, depth=0) => {
         }
 
       }
-      // group.up.set(0.0, 0.0, -1.0);
-      // group.rotation.z = 90 * Math.PI/180;
-      // group.rotation.x = -90 * Math.PI/180;
+
       group.scale.y = -1;
       group.position.z -= depth;
       scene.add( group );
@@ -84,26 +90,37 @@ module.exports = {
 		controls = new OrbitControls( camera, renderer.domElement );
     controls.target.x = 6;
     controls.target.y = -6;
-    controls.enableZoom = false;
+    // controls.enableZoom = false;
     controls.update();
     window.controls = controls;
 
-    // controls.update();
-    // controls.update();
-		// orbit.enableZoom = false;
-
 		var lights = [];
+    window.lights = lights;
 		lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
-		lights[ 1 ] = new THREE.PointLight( 0xffffff, 1, 0 );
-		lights[ 2 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+		lights[ 1 ] = new THREE.PointLight( 0xffffff, 0.7, 0 );
+		// lights[ 2 ] = new THREE.PointLight( 0xffffff, 1, 0 );
 
-		lights[ 0 ].position.set( 0, 200, 0 );
+		lights[ 0 ].position.set( 1, -0.1, 0.1 );
 		lights[ 1 ].position.set( 100, 200, 100 );
-		lights[ 2 ].position.set( - 100, - 200, - 100 );
+		// lights[ 2 ].position.set( - 100, - 200, - 100 );
 
-		scene.add( lights[ 0 ] );
+    // Start: lights[0].position.set(1,-0.1, 0.1)
+    // End: 11,-0.1, 0.1
+    for (let i=0;i<3;i++) {
+      var light = new THREE.PointLight( new THREE.Color("blue"), 1, 1 );
+      light.position.set(3+ i*(11-1)/3, 0, 0.1);
+      scene.add(light);
+    }
+
+    for (let i=0;i<3;i++) {
+      var light = new THREE.PointLight( 0xffffff, 0.5, 100 );
+      light.position.set(3+ i*(11-1)/3, -13, 0.1);
+      scene.add(light);
+    }
+
+		// scene.add( lights[ 0 ] );
 		scene.add( lights[ 1 ] );
-		scene.add( lights[ 2 ] );
+		// scene.add( lights[ 2 ] );
 
     // Geometry doesn't do much on its own, we need to create a Mesh from it
     // var material1 = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
